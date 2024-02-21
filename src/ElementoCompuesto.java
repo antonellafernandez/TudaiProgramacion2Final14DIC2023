@@ -1,9 +1,18 @@
-public class Agrupacion extends Elemento {
+public class ElementoCompuesto extends Elemento {
+    private String nombre;
     private ArrayList<Elemento> elems;
 
-    public Agrupacion(String nn) {
-        super(nn);
+    public ElementoCompuesto(String nn) {
+        this.nombre = nn;
         this.elems = new ArrayList<Elemento>;
+    }
+
+    public String getNombre() {
+        return this.nombre;
+    }
+
+    public void setNombre(String nn) {
+        this.nombre = nn;
     }
 
     public ArrayList<ELemento> getElems() {
@@ -15,11 +24,11 @@ public class Agrupacion extends Elemento {
     }
 
     @Override
-    public ArrayList<Asiento> buscarAsientos(Buscador bb, Elfo ee) {
+    public ArrayList<Asiento> getAsientos(Elfo ee) {
         ArrayList<Asiento> salida = new ArrayList<Asiento>;
 
         for (Elemento ee : this.elems) {
-            salida.addAll(ee.getAsientos(bb, ee));
+            salida.addAll(ee.getAsientos(ee));
         }
 
         return salida;
@@ -52,7 +61,27 @@ public class Agrupacion extends Elemento {
     }
 
     @Override
-    public Elemento getCopiaRestringida(Elfo ee) {
-        
+    public Elemento getCopiaRestringida(Buscador bb) {
+        ArrayList<Elemento> copiaElementos = new ArrayList<Elemento>;
+
+        for (Elemento ee : this.elems) {
+            Elemento eCopia = ee.getCopiaRestringida(bb);
+
+            if (eCopia != null) {
+                copiaElementos.add(eCopia);
+            }
+        }
+
+        if (!copiaElementos.isEmpty()) {
+            Elemento salida = new ElementoCompuesto(this.getNombre());
+
+            for (Elemento ee : copiaElementos) {
+                salida.addElem(ee);
+            }
+
+            return salida;
+        }
+     
+        return null;
     }
 }
