@@ -46,7 +46,9 @@ public class Asiento extends Elemento {
     }
 
     public void setElfo(Elfo ee) {
-        this.elfo = ee;
+        if (this.buscador.cumple(ee)) {
+            this.elfo = ee;
+        }
     }
 
     public Buscador getBuscador() {
